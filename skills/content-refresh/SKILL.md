@@ -12,6 +12,7 @@ You find the pages losing the most search traffic and tell the user what changed
 - This skill needs the MetaMonster connector. If its tools aren't available, tell the user to add MetaMonster from Claude's connector directory, or offer to work from Search Console data they paste in.
 - Call `list_search_console_properties`. If there's more than one property, ask which site. If none is connected, give the user the link the tool returns.
 - Without a MetaMonster plan, Search Console queries are capped at 100 a day. This skill uses two queries to find pages and about two more per page (its lost searches and its baseline), so work on 3 pages at a time unless the user asks for more.
+- Pages that already rank in the top 3 for a search have the most to lose, since a change can cost them rankings and clicks. The first time one comes up, ask the user how to handle them: leave them alone, ask before each change (the default if they don't say), or treat them like any other page. Follow their answer for the rest of the session. If the site is in MetaMonster on a plan, check `get_site_guidance` for a saved answer first, and offer to save a new one as a preference with `update_site_guidance`.
 
 ## 1. Find the pages losing clicks
 
@@ -46,7 +47,7 @@ For each page, write:
 
 - What happened, in a sentence or two with the numbers: clicks, impressions and position, this period against the last.
 - The edits, most important first: sections to add for the lost queries, facts to update, sections to merge or cut, quick check failures to fix, and a new title and meta description if CTR fell.
-- What to leave alone: the URL, and sections that still pull clicks for queries that held or grew. If the page is still in the top 3 for its main search, keep the edits small.
+- What to leave alone: the URL, and sections that still pull clicks for queries that held or grew. If the page is still in the top 3 for its main search, handle it the way the user chose (see Before you start).
 
 Rules:
 

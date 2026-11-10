@@ -13,6 +13,7 @@ You answer Search Console questions with real data, and you say which dates ever
 - Call `list_search_console_properties`. If there's more than one property, ask which site, and prefer the domain property (sc-domain:) when both exist. If none is connected, give the user the link the tool returns.
 - Pass `property` to `query_search_console`. Without a MetaMonster plan that's capped at 100 queries a day. On a plan, with the site in MetaMonster, you can pass `site_id` instead, and page rows come with a page_id for MetaMonster's page tools.
 - Plan the queries before you run them. Most recipes below take 1 to 5. If a request would need more than about 20, say so and suggest a smaller version.
+- Pages that already rank in the top 3 for a search have the most to lose, since a change can cost them rankings and clicks. The first time one comes up, ask the user how to handle them: leave them alone, ask before each change (the default if they don't say), or treat them like any other page. Follow their answer for the rest of the session. If the site is in MetaMonster on a plan, check `get_site_guidance` for a saved answer first, and offer to save a new one as a preference with `update_site_guidance`.
 
 ## Rules for the numbers
 
@@ -40,11 +41,11 @@ Lay it out as headline numbers with their change, then the tables, then the 3 th
 
 ## Find opportunities
 
-Pick the recipe that fits the ask. For "where are my opportunities", run striking distance, cannibalization, rising searches and question searches together, which is about 5 queries. Leave out searches where a page already ranks in the top 3 unless the user asks, since changes there put the clicks it already gets at risk.
+Pick the recipe that fits the ask. For "where are my opportunities", run striking distance, cannibalization, rising searches and question searches together, which is about 5 queries. Handle searches where a page already ranks in the top 3 the way the user chose (see Before you start).
 
 Striking distance: `dimensions: ["query", "page"]`, `days: 90`, `sort: "impressions"`, `limit: 200`. Keep rows with an average position from 8 to 20 and rank them by impressions. For the top 5, name the page and the search and what would move it: a section that answers the search, the search in the title or H1, or internal links from related pages (the internal-links skill does this).
 
-Low click-through on page one: use the metadata-rewrite skill if it's installed. Otherwise, take pages at positions 4 to 10 whose CTR is below the median for their position range.
+Low click-through on page one: use the metadata-rewrite skill if it's installed. Otherwise, take pages at position 10 or better whose CTR is below the median for their position range.
 
 Pages losing traffic: use the content-refresh skill if it's installed. Otherwise, `dimensions: ["page"]` with `compare_to: "previous_period"`, sorted by `clicks_change` ascending.
 

@@ -12,12 +12,13 @@ You rewrite title tags and meta descriptions for pages that Google already shows
 - This skill needs the MetaMonster connector. If its tools aren't available, tell the user to add MetaMonster from Claude's connector directory, or offer to work from data they paste in: the URL, the current title and description, and the top queries with clicks, impressions and position.
 - Call `list_search_console_properties`. If there's more than one property, ask which site. If none is connected, give the user the link the tool returns.
 - Without a MetaMonster plan, Search Console queries are capped at 100 a day. This skill uses one query to find pages and about two more per page (its searches and its baseline), so work on 5 pages at a time unless the user asks for more.
+- Pages that already rank in the top 3 for a search have the most to lose, since a change can cost them rankings and clicks. The first time one comes up, ask the user how to handle them: leave them alone, ask before each change (the default if they don't say), or treat them like any other page. Follow their answer for the rest of the session. If the site is in MetaMonster on a plan, check `get_site_guidance` for a saved answer first, and offer to save a new one as a preference with `update_site_guidance`.
 
 ## 1. Find the pages
 
 If the user named a page, skip to step 2.
 
-Call `query_search_console` with the property, `dimensions: ["page"]`, `days: 28`, `sort: "impressions"` and `limit: 50`. Keep pages with an average position between 4 and 10 whose CTR is well below the median CTR of the site's other pages in the same position range. Those pages rank but don't get picked. Leave out pages in the top 3 unless the user asks for them, because they already get most of the clicks on offer and a new title can lose some. If the user does want one, tell them the risk is higher and keep the change small. Show the user the top 5 with clicks, impressions, CTR and position, and ask which to work on. Default to all 5.
+Call `query_search_console` with the property, `dimensions: ["page"]`, `days: 28`, `sort: "impressions"` and `limit: 50`. Keep pages with an average position of 10 or better whose CTR is well below the median CTR of the site's other pages in the same position range. Those pages rank but don't get picked. Handle pages in the top 3 the way the user chose (see Before you start). Show the user the top 5 with clicks, impressions, CTR and position, and ask which to work on. Default to all 5.
 
 ## 2. Read the searches behind each page
 

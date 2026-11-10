@@ -17,6 +17,7 @@ If a tool returns payment_required, tell the user that step needs a MetaMonster 
 
 ## Ground rules
 
+- Pages that already rank in the top 3 for a search have the most to lose, since a change can cost them rankings and clicks. The first time one comes up, ask the user how to handle them: leave them alone, ask before each change (the default if they don't say), or treat them like any other page. Follow their answer for the rest of the session. Check `get_site_guidance` for a saved answer first, and offer to save a new one as a preference with `update_site_guidance`, reading the wording back first.
 - Read before you write. Before drafting anything, call `get_site_guidance` (brand voice, about the business, preferences, voice notes, audiences) and search `get_site_facts` for what the page needs. If the site has call transcripts, use `search_context` for the words customers use.
 - Never invent a fact, number, quote or testimonial. Check a fact's citation before you use it, and skip facts marked stale or awaiting_confirmation. When the user tells you a fact, save it with `add_site_facts`.
 - Change guidance, steering and settings only when the user asks, and read the new wording back to them first.
@@ -55,7 +56,7 @@ When a step is manual, or the user wants to do it with you, work the step direct
 - Outline: `generate_content_outline`, then accept, reject or revise sections with `update_content_brief`.
 - Draft: `generate_page_draft` runs MetaMonster's page writer. Or write the sections with the user and save them with `update_content`, passing the content_version_id as base_version_id. For the title, meta description and H1, use `generate_field_draft`, or `set_field_draft` for wording the user wrote.
 - Analyze: `analyze_page` returns the factors and fixes. `get_page_report` reads the latest analysis without running a new one, and `write_fixes` writes fixes that weren't requested.
-- Fix: `draft_fix`, show the before and after, then `review_fix_draft` to accept, reject or revise. Settle the primary keyword, title and H1 before body fixes. If the page is already in the top 3 for its primary keyword, ask before any fix that changes its title, H1 or main sections, since it has the most clicks to lose. When the user made a fix themselves, check it with `resolve_fix`. To skip one, use `dismiss_fix` with their reason.
+- Fix: `draft_fix`, show the before and after, then `review_fix_draft` to accept, reject or revise. Settle the primary keyword, title and H1 before body fixes. If the page is in the top 3 for its primary keyword, follow the user's top 3 preference (see Ground rules). When the user made a fix themselves, check it with `resolve_fix`. To skip one, use `dismiss_fix` with their reason.
 
 A new page that isn't in the pipeline starts with `create_page` (purpose = the idea). A live page MetaMonster hasn't seen starts with `analyze_page` and its URL.
 
