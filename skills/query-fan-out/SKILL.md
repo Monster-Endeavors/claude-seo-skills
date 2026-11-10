@@ -1,6 +1,6 @@
 ---
 name: query-fan-out
-description: Writes out the related searches behind a topic (a query fan-out), checks which ones the site already shows up for in Search Console, and turns the gaps into questions to answer or a section plan. Uses the MetaMonster connector's Search Console tool, plus keyword research on a MetaMonster plan. Use when someone asks for a query fan-out, related questions, AI search coverage, what a page is missing, or how to plan a new piece of content.
+description: "Writes out the related searches behind a topic (a query fan-out), checks which ones the site already shows up for in Search Console, and turns the gaps into questions to answer or a section plan. Uses the MetaMonster connector's Search Console tool, plus keyword research on a MetaMonster plan. Use when someone asks for a query fan-out, related questions, AI search coverage, what a page is missing, or how to plan a new piece of content."
 ---
 
 # Query fan-out

@@ -1,6 +1,6 @@
 ---
 name: brand-voice
-description: Reads pages the user says sound like their brand and writes a voice and tone guide with plain rules, each backed by a quote from their pages, plus words to use and avoid and before-and-after examples. On a MetaMonster plan, it can save the guide to the site's Context Library through the MetaMonster connector. Use when someone asks for a brand voice guide, a tone of voice guide, a style guide, or rules for an AI writer.
+description: "Reads pages the user says sound like their brand and writes a voice and tone guide with plain rules, each backed by a quote from their pages, plus words to use and avoid and before-and-after examples. On a MetaMonster plan, it can save the guide to the site's Context Library through the MetaMonster connector. Use when someone asks for a brand voice guide, a tone of voice guide, a style guide, or rules for an AI writer."
 ---
 
 # Brand voice

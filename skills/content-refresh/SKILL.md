@@ -1,6 +1,6 @@
 ---
 name: content-refresh
-description: Finds the pages on a site that are losing Google clicks, works out why from Search Console, and writes a refresh plan for each one. Uses the MetaMonster connector's Search Console and quick page check tools. Use when someone asks which content to update, why traffic dropped, how to refresh old posts, or what to fix first.
+description: "Finds the pages on a site that are losing Google clicks, works out why from Search Console, and writes a refresh plan for each one. Uses the MetaMonster connector's Search Console and quick page check tools. Use when someone asks which content to update, why traffic dropped, how to refresh old posts, or what to fix first."
 ---
 
 # Content refresh

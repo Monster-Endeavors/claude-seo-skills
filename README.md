@@ -43,7 +43,7 @@ Start for free with the MetaMonster MCP: TODO signup link, with utm_source=metam
 
 ## How the zips stay current
 
-Each zip in `dist/` holds its skill's folder, ready to upload. They're rebuilt automatically from `skills/` on every push to `main`, and a pull request fails its check if a zip doesn't match its folder. To rebuild them yourself, run:
+Each zip in `dist/` holds its skill's folder, ready to upload. They're rebuilt automatically from `skills/` on every push to `main`, and a pull request fails its check if a skill's frontmatter isn't valid YAML or a zip doesn't match its folder. To rebuild them yourself (this needs PyYAML), run:
 
 ```
 python3 scripts/build_zips.py

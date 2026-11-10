@@ -1,6 +1,6 @@
 ---
 name: metadata-rewrite
-description: Finds pages that get Google impressions but few clicks and rewrites their title tags, meta descriptions, H1s and Open Graph tags from the searches behind them. Uses the MetaMonster connector's Search Console and quick page check tools. Use when someone wants more clicks from Google, new titles or meta descriptions, a better CTR, or asks why a page gets impressions but no clicks.
+description: "Finds pages that get Google impressions but few clicks and rewrites their title tags, meta descriptions, H1s and Open Graph tags from the searches behind them. Uses the MetaMonster connector's Search Console and quick page check tools. Use when someone wants more clicks from Google, new titles or meta descriptions, a better CTR, or asks why a page gets impressions but no clicks."
 ---
 
 # Metadata rewrite

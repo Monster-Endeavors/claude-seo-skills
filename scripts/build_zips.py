@@ -8,6 +8,10 @@ install it with one upload:
       search-console/
         SKILL.md
 
+Both modes first check that every SKILL.md starts with valid YAML frontmatter
+holding a name that matches its folder and a description, since Claude rejects
+a skill whose frontmatter doesn't parse. This needs PyYAML (pip install pyyaml).
+
 Usage:
     python3 scripts/build_zips.py          # rebuild every zip in dist/
     python3 scripts/build_zips.py --check  # fail if any zip is missing, stale or extra
@@ -17,6 +21,8 @@ import io
 import sys
 import zipfile
 from pathlib import Path
+
+import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = ROOT / "skills"
@@ -34,6 +40,27 @@ def skill_files(skill_dir):
         p for p in skill_dir.rglob("*")
         if p.is_file() and p.name != ".DS_Store"
     )
+
+
+def frontmatter_problems(skill_dir):
+    text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+    where = f"skills/{skill_dir.name}/SKILL.md"
+    parts = text.split("---\n", 2)
+    if not text.startswith("---\n") or len(parts) < 3:
+        return [f"{where} has no frontmatter between --- lines"]
+    try:
+        data = yaml.safe_load(parts[1])
+    except yaml.YAMLError as error:
+        first_line = str(error).splitlines()[0]
+        return [f"{where} frontmatter isn't valid YAML ({first_line}). Quote values that contain ': '"]
+    if not isinstance(data, dict):
+        return [f"{where} frontmatter isn't a set of keys"]
+    problems = []
+    if data.get("name") != skill_dir.name:
+        problems.append(f"{where} name should be {skill_dir.name!r}")
+    if not isinstance(data.get("description"), str) or not data["description"].strip():
+        problems.append(f"{where} needs a description")
+    return problems
 
 
 def build_zip(skill_dir):
@@ -56,6 +83,13 @@ def contents(zip_bytes):
 
 def main():
     check = "--check" in sys.argv[1:]
+    bad = [problem for d in skill_dirs() for problem in frontmatter_problems(d)]
+    if bad:
+        print("Skill frontmatter problems:")
+        for problem in bad:
+            print(f"  - {problem}")
+        return 1
+
     DIST.mkdir(exist_ok=True)
     expected = {f"{d.name}.zip": build_zip(d) for d in skill_dirs()}
     problems = []

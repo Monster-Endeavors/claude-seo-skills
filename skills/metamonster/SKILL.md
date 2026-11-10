@@ -1,6 +1,6 @@
 ---
 name: metamonster
-description: Works inside MetaMonster the way the app is designed to work. Plans content from the Playbook, takes pages through the create and optimize pipeline step by step and stops for the user wherever their automation settings say, reads and updates the Context Library, researches keywords, handles fixes, and hands drafts off for publishing. Uses the MetaMonster connector. Use when someone asks to work on their site's content in MetaMonster, asks what to publish next, wants a page written or optimized, or asks about their Playbook, Context Library, automation settings, fixes or Drift findings.
+description: "Works inside MetaMonster the way the app is designed to work. Plans content from the Playbook, takes pages through the create and optimize pipeline step by step and stops for the user wherever their automation settings say, reads and updates the Context Library, researches keywords, handles fixes, and hands drafts off for publishing. Uses the MetaMonster connector. Use when someone asks to work on their site's content in MetaMonster, asks what to publish next, wants a page written or optimized, or asks about their Playbook, Context Library, automation settings, fixes or Drift findings."
 ---
 
 # MetaMonster

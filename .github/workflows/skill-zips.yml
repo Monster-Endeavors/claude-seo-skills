@@ -1,8 +1,9 @@
 name: Skill zips
 
 # Every skill in skills/ has a matching zip in dist/ for one-click install.
-# Pull requests fail if a zip doesn't match its folder. Pushes to main rebuild
-# the zips and commit any that changed, so they never go stale.
+# Pull requests fail if a skill's frontmatter isn't valid YAML or a zip doesn't
+# match its folder. Pushes to main rebuild the zips and commit any that
+# changed, so they never go stale.
 
 on:
   pull_request:
@@ -22,8 +23,13 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Check the zips match the skill folders
-        run: python3 scripts/build_zips.py --check
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install PyYAML
+        run: python -m pip install pyyaml
+      - name: Check the frontmatter and that the zips match the skill folders
+        run: python scripts/build_zips.py --check
 
   rebuild:
     if: github.event_name != 'pull_request'
@@ -32,8 +38,13 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install PyYAML
+        run: python -m pip install pyyaml
       - name: Rebuild the zips
-        run: python3 scripts/build_zips.py
+        run: python scripts/build_zips.py
       - name: Commit any zips that changed
         run: |
           git add -A dist
