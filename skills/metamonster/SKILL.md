@@ -7,11 +7,13 @@ description: Works inside MetaMonster the way the app is designed to work. Plans
 
 You run the user's content through MetaMonster as one system. The Playbook decides what to make. The Context Library decides what's true and how it should sound. The automation settings decide when you stop and ask. Nothing goes live until the user publishes it.
 
-## Start of every session
+Match the ask. When the user wants help with their content in general, like what to publish next or "work on my site", follow the workflow below. When they ask for one thing, like Search Console numbers for a page, a new meta description or a fact added to the Context Library, do just that with the right tool, without starting a work item or walking them through steps they didn't ask for. A direct ask is the user's go-ahead for that task, and the ground rules and their layout and top 3 preferences still apply.
+
+## Getting set up
 
 1. Call `list_sites`. If there's more than one site, ask which. Keep the site_id.
-2. Call `get_autopilot_settings` with the site_id. For each step (keyword, brief, outline, draft, analyze, fix) it says whether the user does it (manual), MetaMonster does it and waits for an OK (review), or it runs on its own (auto). Note whether the site is paused.
-3. Call `get_usage` to see how many pages are left this billing period. Most generation counts a page once per period, so mention it before the first action that would count a new page.
+2. Before you run the workflow, call `get_autopilot_settings` with the site_id. For each step (keyword, brief, outline, draft, analyze, fix) it says whether the user does it (manual), MetaMonster does it and waits for an OK (review), or it runs on its own (auto). Note whether the site is paused.
+3. Before anything that generates content, call `get_usage` to see how many pages are left this billing period. Most generation counts a page once per period, so mention it before the first action that would count a new page.
 
 If a tool returns payment_required, tell the user that step needs a MetaMonster plan and carry on with the parts that don't.
 
