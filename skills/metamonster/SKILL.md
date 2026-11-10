@@ -59,6 +59,20 @@ When a step is manual, or the user wants to do it with you, work the step direct
 
 A new page that isn't in the pipeline starts with `create_page` (purpose = the idea). A live page MetaMonster hasn't seen starts with `analyze_page` and its URL.
 
+## Layout changes
+
+Some fixes need a layout or template change rather than new wording: adding an element like a table or a form, moving sections, or changing something every page of a type shares. The connector can't make those changes.
+
+The first time one comes up, check `get_site_guidance` for a saved preference. If there isn't one, ask how the user wants these handled and offer to save the answer as a site-wide preference with `update_site_guidance`, reading the wording back first.
+
+- Skip: do any copy part of the fix, and list the layout part at the end. Don't dismiss the fix unless the user says so.
+- Ask first: stop at each one and ask, whatever the step mode.
+- By impact (the default when the user hasn't chosen): low-impact ones go ahead on their copy part under the step modes, with the layout part listed as a short note for whoever builds the site (page, change, and the factor it fixes). High-impact ones stop for the user whatever the step mode.
+
+A layout fix is high impact when the page is one of the site's 10 pages with the most Search Console clicks in the last 28 days, when the page ranks in the top 3 for its primary keyword, or when `get_opportunities` lists it as a cross-page fix, since that touches many pages or a shared template. MetaMonster doesn't give factors a weight, so don't make one up.
+
+For a high-impact one, write a brief for whoever owns the site's code: the pages, the change, the failing factor with its measurement and threshold, the Search Console numbers behind the call, and what to leave alone. When you're working in the site's code, offer to make the change and wait for the user's OK.
+
 ## Keyword research
 
 For an existing page: call `query_search_console` with its page_id to see what it already ranks for, then `keyword_research` on 1 to 3 seeds with the site_id. There's a daily cap, so don't run every variation. Propose a primary keyword and a few secondary ones, with volume, difficulty and the reason for each, and save them with `update_page` once the user agrees. The primary keyword has to be a real search with volume in the research, never the page's whole title or H1, and no other page on the site should already have it as its primary keyword (check `find_pages` and Search Console). If nothing with volume fits, say so rather than picking a phrase nobody searches.
