@@ -1,6 +1,6 @@
 ---
 name: internal-links
-description: Suggests internal links for pages that are close to page one of Google, using Search Console to pick target pages, anchor text and source pages, then names the exact sentence to link from. Uses the MetaMonster connector's Search Console and quick page check tools. Use when someone asks for internal link suggestions, an internal linking plan, or how to help a page rank higher.
+description: "Suggests internal links for pages that are close to page one of Google, using Search Console to pick target pages, anchor text and source pages, then names the exact sentence to link from. Uses the MetaMonster connector's Search Console and quick page check tools. Use when someone asks for internal link suggestions, an internal linking plan, or how to help a page rank higher."
 ---
 
 # Internal links

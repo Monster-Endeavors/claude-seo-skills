@@ -1,6 +1,6 @@
 ---
 name: content-qa
-description: Checks a draft or live page before it's published: on-page SEO basics through the MetaMonster connector's quick page check, then a careful read for typos, grammar, unsourced claims, repetition and AI-sounding wording. Returns a prioritized list of fixes with the exact line for each. Use when someone asks to proofread, QA, check or review content before publishing, or asks whether a draft sounds like AI.
+description: "Checks a draft or live page before it's published: on-page SEO basics through the MetaMonster connector's quick page check, then a careful read for typos, grammar, unsourced claims, repetition and AI-sounding wording. Returns a prioritized list of fixes with the exact line for each. Use when someone asks to proofread, QA, check or review content before publishing, or asks whether a draft sounds like AI."
 ---
 
 # Content QA

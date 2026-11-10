@@ -1,6 +1,6 @@
 ---
 name: search-console
-description: Answers questions about a site's Google Search Console data and turns it into reports and opportunity lists, including performance reports with period comparisons, striking-distance keywords, cannibalization, new and rising searches, question searches, brand versus non-brand traffic, and device or country splits. Uses the MetaMonster connector's Search Console tools, which work without a MetaMonster plan (up to 100 queries a day). Use when someone asks about their search traffic, rankings, clicks, impressions, Google Search Console, an SEO report, or where their SEO opportunities are.
+description: "Answers questions about a site's Google Search Console data and turns it into reports and opportunity lists, including performance reports with period comparisons, striking-distance keywords, cannibalization, new and rising searches, question searches, brand versus non-brand traffic, and device or country splits. Uses the MetaMonster connector's Search Console tools, which work without a MetaMonster plan (up to 100 queries a day). Use when someone asks about their search traffic, rankings, clicks, impressions, Google Search Console, an SEO report, or where their SEO opportunities are."
 ---
 
 # Search Console

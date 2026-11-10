@@ -1,6 +1,6 @@
 ---
 name: serp-topic-gaps
-description: Reads the top Google results for a keyword, works out what they all cover and where they differ, and compares them with the user's page to list missing topics, untapped angles and unanswered searches from Search Console. Uses web search plus the MetaMonster connector's Search Console and quick page check tools, and content briefs on a MetaMonster plan. Use when someone asks for a SERP analysis, a topic gap analysis, competitor content research, or what a page is missing.
+description: "Reads the top Google results for a keyword, works out what they all cover and where they differ, and compares them with the user's page to list missing topics, untapped angles and unanswered searches from Search Console. Uses web search plus the MetaMonster connector's Search Console and quick page check tools, and content briefs on a MetaMonster plan. Use when someone asks for a SERP analysis, a topic gap analysis, competitor content research, or what a page is missing."
 ---
 
 # SERP and topic gaps
