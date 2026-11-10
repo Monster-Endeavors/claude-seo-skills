@@ -1,0 +1,47 @@
+name: Skill zips
+
+# Every skill in skills/ has a matching zip in dist/ for one-click install.
+# Pull requests fail if a zip doesn't match its folder. Pushes to main rebuild
+# the zips and commit any that changed, so they never go stale.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - "skills/**"
+      - "dist/**"
+      - "scripts/build_zips.py"
+  workflow_dispatch:
+
+jobs:
+  check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the zips match the skill folders
+        run: python3 scripts/build_zips.py --check
+
+  rebuild:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild the zips
+        run: python3 scripts/build_zips.py
+      - name: Commit any zips that changed
+        run: |
+          git add -A dist
+          if git diff --cached --quiet; then
+            echo "Zips are already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Rebuild skill zips"
+          git push
