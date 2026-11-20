@@ -40,4 +40,4 @@ Give four short lists: table stakes the page is missing, open angles worth takin
 
 ## 6. Build a brief on a MetaMonster plan
 
-If the user has a plan and the page is in MetaMonster, offer `generate_content_brief`. It reads the top results for the page's primary keyword and writes an angle and a section outline the user can edit. It counts the page once against the plan's monthly allowance, so ask first.
+If the user has a plan and the page is in MetaMonster, offer `generate_angle`. It reads the top results for the page's primary keyword and writes an angle the user can edit, and `generate_outline` then builds a section outline from it. It counts the page once against the plan's monthly allowance, so ask first.

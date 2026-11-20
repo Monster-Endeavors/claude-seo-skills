@@ -12,7 +12,7 @@ Match the ask. When the user wants help with their content in general, like what
 ## Getting set up
 
 1. Call `list_sites`. If there's more than one site, ask which. Keep the site_id.
-2. Before you run the workflow, call `get_autopilot_settings` with the site_id. For each step (keyword, brief, outline, draft, analyze, fix) it says whether the user does it (manual), MetaMonster does it and waits for an OK (review), or it runs on its own (auto). Note whether the site is paused.
+2. Before you run the workflow, call `get_autopilot_settings` with the site_id. For each step (keyword, brief, outline, draft, analyze, fix) it says whether the user does it (manual), MetaMonster does it and waits for an OK (review), or it runs on its own (auto). Note whether the site is paused. If `get_autopilot_settings` isn't available, treat every step as review: do it, then stop for the user.
 3. Before anything that generates content, call `get_usage` to see how many pages are left this billing period. Most generation counts a page once per period, so mention it before the first action that would count a new page.
 
 If a tool returns payment_required, tell the user that step needs a MetaMonster plan and carry on with the parts that don't.
@@ -24,7 +24,7 @@ If a tool returns payment_required, tell the user that step needs a MetaMonster 
 - Never invent a fact, number, quote or testimonial. Check a fact's citation before you use it, and skip facts marked stale or awaiting_confirmation. When the user tells you a fact, save it with `add_site_facts`.
 - Change guidance, steering and settings only when the user asks, and read the new wording back to them first.
 - These tools publish nothing. Call it a draft until the user says it's live.
-- Ask before anything that costs money or can't easily be undone: `generate_content_ideas` (paid research, once per site per 24 hours), `accept_content_idea` with optimize (spends an analysis), moving to full_monster, `accept_drift_finding` and `delete_page`.
+- Ask before anything that costs money or can't easily be undone: `refresh_playbook` (paid research, once per site per 24 hours), `accept_content_idea` with optimize (spends an analysis), moving to full_monster, `add_finding_to_playbook`, `delete_page` and `delete_site`.
 
 ## When to stop for feedback
 
@@ -41,11 +41,11 @@ Publishing and the live check are always the user's. If the user says "just keep
 - `get_content_playbook` for the quick wins (moves) and strategies (plays). `list_content_ideas` to filter ideas by strategy, funnel stage or kind of change, and `get_content_idea` to read one in full. `get_authority_map` for topic gaps, `get_content_calendar` for what's due.
 - `get_playbook_steering` and `update_playbook_steering` for the goal, focus topics, kinds of ideas, what to avoid and pages the user already wants. Saving runs nothing; the next ideas run follows it.
 - `add_content_idea` adds a page the user wants without starting it.
-- `generate_content_ideas` refreshes the Playbook. Use update unless the business or site has changed a lot, and ask before rebuild. A run takes about 10 minutes: tell the user it's running, check `get_content_ideas_status` every few minutes, then read the Playbook.
+- `refresh_playbook` refreshes the Playbook. Use update unless the business or site has changed a lot, and ask before rebuild. A run takes about 10 minutes: tell the user it's running, check `get_content_ideas_status` every few minutes, then read the Playbook.
 
 ## Take a page through the pipeline
 
-Work items are how the app runs content, so use them and the user's settings apply on their own.
+Work items are how the app runs content, so use them and the user's settings apply on their own. If the item tools (`create_item` and the rest) aren't available, work each step directly as below.
 
 1. Start: `create_item` with source idea (an idea id), analysis (an analysis id) or manual (create with a title, or optimize with a page_id). Use `start_item` for one already waiting in Up next (`list_items`).
 2. Follow: `get_item` shows each step and what the item is waiting on. Put the ask to the user in plain words, then answer it with `answer_item_ask`: approve, regenerate with instructions, edit_myself, apply_fixes, write_draft, draft_done or fill_in. Fill in placeholders only with values the user gave you.
@@ -54,11 +54,11 @@ Work items are how the app runs content, so use them and the user's settings app
 When a step is manual, or the user wants to do it with you, work the step directly:
 
 - Keyword: see Keyword research below.
-- Brief: `generate_content_brief` (needs a primary keyword and counts the page). Review the angle with the user and edit it with `update_content_brief` and `brief`.
-- Outline: `generate_content_outline`, then accept, reject or revise sections with `update_content_brief`.
-- Draft: `generate_page_draft` runs MetaMonster's page writer. Or write the sections with the user and save them with `update_content`, passing the content_version_id as base_version_id. For the title, meta description and H1, use `generate_field_draft`, or `set_field_draft` for wording the user wrote.
+- Brief: `generate_angle` writes the angle (needs a primary keyword and counts the page). Review it with the user, and edit or skip it with `update_angle`.
+- Outline: `generate_outline` (or `outline_text` for the user's own outline), then accept, reject, revise or reorder sections with `update_outline`.
+- Draft: `write_draft` runs MetaMonster's page writer on the accepted sections. Or write the sections with the user and save them with `update_content`, passing the content_version_id from `update_outline` as base_version_id. For the title, meta description and H1, use `generate_field_draft`, or `set_draft_field` for wording the user wrote. `get_draft` shows where the draft stands.
 - Analyze: `analyze_page` returns the factors and fixes. `get_page_report` reads the latest analysis without running a new one, and `write_fixes` writes fixes that weren't requested.
-- Fix: `draft_fix`, show the before and after, then `review_fix_draft` to accept, reject or revise. Settle the primary keyword, title and H1 before body fixes. If the page is in the top 3 for its primary keyword, follow the user's top 3 preference (see Ground rules). When the user made a fix themselves, check it with `resolve_fix`. To skip one, use `dismiss_fix` with their reason.
+- Fix: `draft_fix`, show the before and after, then `review_fix_draft` to accept, reject or revise. Settle the primary keyword, title and H1 before body fixes. If the page is in the top 3 for its primary keyword, follow the user's top 3 preference (see Ground rules). When the user made a fix themselves, check it with `resolve_fix`. To skip one, use `dismiss_fix` with their reason. A fix draft can be revised at most 3 times. Past that, accept it and set the field to the user's own wording with `set_draft_field` (or `update_content` for the body).
 
 A new page that isn't in the pipeline starts with `create_page` (purpose = the idea). A live page MetaMonster hasn't seen starts with `analyze_page` and its URL.
 
@@ -89,13 +89,26 @@ For new content: start from the Playbook's keywords and open ideas and the steer
 - Transcripts: `add_context_document` (ask whether customers in it may be quoted before setting quotes_usable), `list_context_documents` and `search_context`.
 - Facts: `get_site_facts` and `add_site_facts`, and `scan_site` to read the site for facts again.
 
+## Site settings
+
+`get_site_settings` and `update_site_settings` read and change the brand name, search location, platform and llms.txt. Set the location by name, like country "US" and city "Charleston". `delete_site` deletes a site and everything in it, so only on the user's explicit ask.
+
+The location changes keyword and SERP data, and the audiences and primary keyword are what the angle and fixes are built on. After any of these changes, run the angle again with `generate_angle` (pass refresh_serp: true if its schema has that option) and run `analyze_page` again, rather than editing the old angle.
+
 ## Publishing
 
-The connector doesn't publish to a CMS. When you're working in the site's code (for example, Claude Code in the site's repo), call `get_page_drafts`, write the drafts into the files, commit, then call `mark_page_published` with what you applied. MetaMonster watches the live page and re-analyzes it once the change shows up. If the deploy ran late, use `check_page_live_again`. Otherwise, tell the user the drafts are ready to publish from MetaMonster.
+The connector doesn't publish to a CMS. When you're working in the site's code (for example, Claude Code in the site's repo):
+
+1. Call `get_draft` and write only what it returns into the files. If a draft's text isn't in the repo, say where it seems to come from (a CMS, a data file) instead of guessing.
+2. Commit, ending the message with the trailer line `MetaMonster-Page: <page id>`, and push.
+3. Call `mark_page_published` with exactly what you applied, the commit_sha and the preview URL.
+4. Tell the user each file you changed and what changed in it.
+
+MetaMonster gives the site's platform but not its host, so find the preview URL in the repo's deploy config (vercel.json, netlify.toml, render.yaml, GitHub workflows and so on) rather than guessing one. Don't call `recrawl_page` or `analyze_page` after publishing: MetaMonster watches the live page and re-analyzes it once the change shows up. If the deploy ran late, use `check_page_live_again`. When you're not in the site's code, tell the user the drafts are ready to publish from MetaMonster.
 
 ## Keep content consistent
 
-`get_drift_findings` lists pages that contradict each other or the business facts, and `get_drift_finding` shows one in full. `accept_drift_finding` turns a finding into update ideas (ask first). `run_drift_scan` checks the site again.
+`list_drift_findings` lists pages that contradict each other or the business facts, and `get_research_finding` shows one in full. `add_finding_to_playbook` turns a finding into update ideas (ask first). `run_drift` checks the site again.
 
 ## Search Console
 

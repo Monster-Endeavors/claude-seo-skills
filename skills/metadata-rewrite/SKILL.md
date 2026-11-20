@@ -61,7 +61,7 @@ Call `quick_check_page` again with the `url`, the `primary_keyword`, and your pr
 
 For each page, show a table with the current and proposed title, meta description and H1 (if it changed), plus one line on why, citing the searches and numbers behind the change. Put the option you'd pick first.
 
-Nothing is published. If the user has a MetaMonster plan and wants to keep going, offer to save the copy they pick as drafts on the page in MetaMonster with `set_field_draft`, where they can review it and publish it. Without a plan, they copy the new tags into their CMS themselves.
+Nothing is published. If the user has a MetaMonster plan and wants to keep going, offer to save the copy they pick as drafts on the page in MetaMonster with `set_draft_field`, where they can review it and publish it. Without a plan, they copy the new tags into their CMS themselves.
 
 ## 7. Set up a fair before and after
 
